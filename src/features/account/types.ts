@@ -1,4 +1,4 @@
-interface IUser {
+export interface IUser {
     id: string;
     nickName: string;
     lastName?: string;
@@ -11,4 +11,13 @@ interface IUser {
 
 export interface IAccountState {
     user: IUser | null;
+    userLoading: boolean;
+    accessToken: string | null;
+}
+
+export interface IFetchApiMethod {
+    url: string;
+    headers?: any;
+    body?: any;
+    method: 'GET' | 'POST' | 'PUT' | 'DELETE'
 }
