@@ -1,28 +1,31 @@
-import React, {useEffect} from 'react';
-import {useDispatch, useSelector} from "react-redux";
-import {BrowserRouter, Navigate, Route, Routes} from "react-router-dom";
-import {routes} from "./routes";
-import {LoginScreen} from "../login";
-import {accountSelector, fetchUser, IAccountState} from "../account";
-import {TReduxState} from "../../store";
-import {useApiService} from "../api";
+import React, { type FC, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 
-const AppRouter = () => {
+import { ChatsPage } from '../chats';
+import { routes } from './routes';
+import { LoginScreen } from '../login';
+import { accountSelector, fetchUserThunk } from '../account';
+import { useApiService } from '../api';
+
+const AppRouter: FC = () => {
     const apiService =useApiService();
     const dispatch = useDispatch();
-    const {accessToken, user, userLoading} = useSelector<TReduxState, IAccountState>(accountSelector);
+    const { accessToken, user, userLoading, hasErrorOnFetch } = useSelector(accountSelector);
 
     useEffect(() => {
         if (!apiService.initialized) {
             apiService.initialize();
         }
-    }, [])
+    }, [ apiService ]);
+
+    console.log({ accessToken });
 
     useEffect(() => {
-        if (!user && !userLoading) { // @ts-ignore
-            dispatch(fetchUser());
+        if (accessToken && !user && !userLoading && !hasErrorOnFetch) { // @ts-ignore
+            dispatch(fetchUserThunk());
         }
-    }, [])
+    }, [ accessToken, dispatch, hasErrorOnFetch, user, userLoading ]);
 
     return (
         <BrowserRouter>
@@ -30,23 +33,35 @@ const AppRouter = () => {
                 {accessToken ? (
                     <>
                         <Route
-                            element={<Navigate to={'/'} replace={true} />}
+                            element={<Navigate
+                            replace={true}
+                            to={routes.chats} />}
                             path={routes.login}
                         />
                         <Route
+                            element={<Navigate
+                            replace={true}
+                            to={routes.chats} />}
                             path={routes.home}
-                            element={<div>HOME</div>}
+                        />
+
+                        <Route
+                            element={<ChatsPage />}
+                            path={routes.chats}
                         />
                     </>
                 ) : (
                     <>
                         <Route
-                            element={<Navigate to={routes.login} replace={true} />}
-                            path={'/'}
-                        />
-                        <Route
-                            path={routes.login}
                             element={<LoginScreen />}
+                            path={routes.login}
+                        />
+
+                        <Route
+                            element={<Navigate
+                                replace={true}
+                                to={routes.login} />}
+                            path={'*'}
                         />
                     </>
                 )}

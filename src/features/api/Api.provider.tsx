@@ -1,8 +1,8 @@
-import React, { FC } from 'react';
-import {Store} from "redux";
+import React, { type FC } from 'react';
+import { type Store } from 'redux';
 
 import { ApiContext } from './Api.context';
-import {apiService, apiServiceCreator} from './Api.service';
+import { apiServiceCreator } from './Api.service';
 
 type TApiProviderProps = {
     children: JSX.Element;

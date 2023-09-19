@@ -1,18 +1,17 @@
-import React from 'react';
+import React, { type FC } from 'react';
 import './App.css';
-import { Provider } from "react-redux"
-import {BrowserRouter} from "react-router-dom";
-import {AppRouter} from "./features/routes";
+import { Provider } from 'react-redux';
 
-import {store} from './store';
+import { AppRouter } from './features/routes';
+import { store } from './features/store';
+import { ApiProvider } from './features/api';
 
 import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
-import {ApiProvider} from "./features/api";
 
-function App() {
+const App: FC = () => {
 
   return (
       <Provider store={store}>
@@ -21,6 +20,6 @@ function App() {
           </ApiProvider>
       </Provider>
   );
-}
+};
 
 export default App;

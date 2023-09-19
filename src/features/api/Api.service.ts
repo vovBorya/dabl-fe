@@ -1,15 +1,16 @@
-import {Store} from "redux";
-import {IFetchApiMethod, setAccessToken} from "../account";
-import routes from "./routes";
+import { type Store } from 'redux';
+
+import { type IFetchApiMethod, type IUser, setAccessToken } from '../account';
+import routes from './routes';
 
 const API_PATH = process.env.REACT_APP_API_PATH;
 
 type THttpMethod = 'GET' | 'POST' | 'DELETE';
 
-export const apiRequest = (url: string, data?: any, method?: THttpMethod) => {
+export const apiRequest = async (url: string, data?: any, method?: THttpMethod): Promise<unknown> => {
     const token = localStorage.getItem('token');
 
-    return fetch(`${API_PATH}${url}`, {
+    return await fetch(`${API_PATH}${url}`, {
         body: data ? JSON.stringify(data) : undefined,
         headers: {
             'Content-Type': 'application/json',
@@ -29,22 +30,20 @@ export class ApiService {
         this.store = store;
     }
 
-    initialize() {
-        const accessToken = localStorage.getItem('accessToken')
+    initialize(): void {
+        const accessToken = localStorage.getItem('accessToken');
 
         if (accessToken) {
-            this.store?.dispatch(setAccessToken(accessToken))
+            this.store?.dispatch(setAccessToken(accessToken));
         }
 
         this.initialized = true;
     }
 
-    fetchApi({url,headers,method, body,...rest}: IFetchApiMethod) {
-        const accessToken = localStorage.getItem('accessToken')
+    async fetchApi({ url,headers,method, body,...rest }: IFetchApiMethod): Promise<any> {
+        const accessToken = localStorage.getItem('accessToken');
 
-        console.log({accessToken})
-
-        return fetch(`${process.env.REACT_APP_API_PATH}${url}`,{
+        return await fetch(`${process.env.REACT_APP_API_PATH}${url}`,{
             headers: {
                 Authorization: `Bearer ${accessToken}`,
                 ...headers
@@ -54,26 +53,25 @@ export class ApiService {
         });
     }
 
-    async fetchUser() {
-        try {
-            console.log({routes});
+    async fetchUser(): Promise<IUser> {
+        const response = await this.fetchApi({
+            url: routes.user,
+            method: 'GET'
+        });
 
-            const response = await this.fetchApi({
-                url: routes.user,
-                method: 'GET'
-            });
+        if (response.status === 401) {
+            this.store?.dispatch(setAccessToken(null));
 
-            return response.json();
-        } catch (err) {
-            console.error(err);
-            return Promise.reject(new Error('User fetching error'))
+            throw new Error('Unauthorized');
         }
+
+        return response.json();
     }
 }
 
 export let apiService: ApiService;
 
-export const apiServiceCreator = (store: Store) => {
+export const apiServiceCreator = (store: Store): ApiService => {
     if (!apiService && store) {
         apiService = new ApiService(store);
     }

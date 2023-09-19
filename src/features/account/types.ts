@@ -13,6 +13,7 @@ export interface IAccountState {
     user: IUser | null;
     userLoading: boolean;
     accessToken: string | null;
+    hasErrorOnFetch: boolean;
 }
 
 export interface IFetchApiMethod {

@@ -1,1 +1,1 @@
-export const STORE_NAME = 'features/account'
+export const ACCOUNT_STORE_NAME = 'features/account';

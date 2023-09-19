@@ -1,4 +1,6 @@
-import {useContext} from "react";
-import {ApiContext} from "./Api.context";
+import { useContext } from 'react';
 
-export const useApiService = () => useContext(ApiContext)
+import { ApiContext } from './Api.context';
+import { type ApiService } from './Api.service';
+
+export const useApiService = (): ApiService => useContext(ApiContext);

@@ -1,11 +1,11 @@
-import React, {ChangeEvent, useCallback, useState} from 'react';
-import {makeStyles} from 'tss-react/mui';
-import {Box, Button, Container, Typography, TextField} from '@mui/material';
+import React, { type ChangeEvent, type FC, useCallback, useState } from 'react';
+import { makeStyles } from 'tss-react/mui';
+import { Box, Button, Container, Typography, TextField } from '@mui/material';
+import { useDispatch } from 'react-redux';
 
 import loginAPI from '../loginAPI';
-import {useDispatch} from "react-redux";
-import {onAccountFetchedSuccessfully, setAccessToken} from "../../account";
-import {ISignInResponse} from "../../api";
+import { onAccountFetchedSuccessfully, setAccessToken } from '../../account';
+import { type ISignInResponse } from '../../api';
 
 const useStyles = makeStyles( { name: 'LoginScreen' })(() => {
     return {
@@ -28,15 +28,15 @@ const useStyles = makeStyles( { name: 'LoginScreen' })(() => {
             textAlign: 'center',
             marginBottom: 8
         }
-    }
-})
+    };
+});
 
-export const LoginScreen = () => {
-    const {classes} = useStyles();
+export const LoginScreen: FC = () => {
+    const { classes } = useStyles();
     const dispatch=useDispatch();
 
-    const [login, setLogin] = useState<string>('');
-    const [password, setPassword] = useState<string>('');
+    const [ login, setLogin ] = useState<string>('');
+    const [ password, setPassword ] = useState<string>('');
 
     const handleLoginChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
         setLogin(event.target.value);
@@ -48,21 +48,25 @@ export const LoginScreen = () => {
 
     const onSubmit = useCallback(async () => {
         try {
-            const {accessToken, ...account}: ISignInResponse = await loginAPI.signIn(login, password);
+            const { accessToken, ...account }: ISignInResponse = await loginAPI.signIn(login, password);
 
-            dispatch(onAccountFetchedSuccessfully(account))
+            dispatch(onAccountFetchedSuccessfully(account));
             dispatch(setAccessToken(accessToken));
 
             localStorage.setItem('accessToken', accessToken);
         } catch (e) {
             console.error(e);
         }
-    }, [login, password])
+    }, [ login, password ]);
 
     return (
-        <Container className={classes.root} maxWidth={'xs'}>
+        <Container
+            className={classes.root}
+            maxWidth={'xs'}>
             <Box className={classes.box}>
-                <Typography className={classes.title} variant='h5'>
+                <Typography
+                    className={classes.title}
+                    variant='h5'>
                     Dabl
                 </Typography>
                 <TextField
@@ -73,15 +77,18 @@ export const LoginScreen = () => {
                     variant="outlined"
                 />
                 <TextField
+                    autoComplete="current-password"
                     className={classes.input}
                     id="outlined-password-input"
                     label="Password"
-                    type="password"
                     onChange={handlePasswordChange}
-                    autoComplete="current-password"
+                    type="password"
                 />
 
-                <Button onClick={onSubmit} fullWidth size={'large'}>
+                <Button
+                    fullWidth
+                    onClick={onSubmit}
+                    size={'large'}>
                     Sign in
                 </Button>
             </Box>

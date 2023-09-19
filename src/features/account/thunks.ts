@@ -1,22 +1,20 @@
-import {Dispatch} from "react";
-import {AnyAction} from "redux";
+import { createAsyncThunk } from '@reduxjs/toolkit';
 
-import {apiService} from "../api";
-import {IUser, onAccountFetchedSuccessfully} from "../account";
-import {AppDispatch} from "../../store";
+import { apiService } from '../api';
+import { type IUser, ACCOUNT_STORE_NAME } from '../account';
 
-import {FETCH_ACCOUNT_ERROR, FETCH_ACCOUNT_REQUESTED} from "./actionTypes";
+export const fetchUserThunk = createAsyncThunk<IUser | undefined>(
+    `${ACCOUNT_STORE_NAME}/fetch-user`,
+    async (_, thunkAPI) => {
+        try {
+            const user: IUser = await apiService.fetchUser();
 
-export const fetchUser = () => async (dispatch: Dispatch<AnyAction>) => {
-    dispatch({ type: FETCH_ACCOUNT_REQUESTED });
+            return user;
+        } catch (err) {
+            console.log('IN THUNK');
+            console.error(err);
 
-    try {
-        const user: IUser = await apiService.fetchUser();
-
-        dispatch(onAccountFetchedSuccessfully(user));
-    } catch (err) {
-        console.error(err);
-
-        dispatch({ type: FETCH_ACCOUNT_ERROR });
+            thunkAPI.rejectWithValue(undefined);
+        }
     }
-}
+);

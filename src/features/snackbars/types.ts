@@ -7,5 +7,5 @@ export interface ISnackbar {
 }
 
 export interface ISnackbarState {
-    snackbars: Array<ISnackbar>;
+    snackbars: ISnackbar[];
 }
