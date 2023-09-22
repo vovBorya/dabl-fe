@@ -1,25 +1,20 @@
-import React, { type FC, useEffect } from 'react';
+import React, { type FC, useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 
 import { ChatsPage } from '../chats';
 import { routes } from './routes';
 import { LoginScreen } from '../login';
-import { accountSelector, fetchUserThunk } from '../account';
-import { useApiService } from '../api';
+import { accountSelector, fetchUserThunk, useInitAccessToken } from '../account';
+import { useSubscribeSSE } from '../sse';
 
 const AppRouter: FC = () => {
-    const apiService =useApiService();
     const dispatch = useDispatch();
     const { accessToken, user, userLoading, hasErrorOnFetch } = useSelector(accountSelector);
 
-    useEffect(() => {
-        if (!apiService.initialized) {
-            apiService.initialize();
-        }
-    }, [ apiService ]);
+    useInitAccessToken();
 
-    console.log({ accessToken });
+    useSubscribeSSE();
 
     useEffect(() => {
         if (accessToken && !user && !userLoading && !hasErrorOnFetch) { // @ts-ignore
@@ -27,11 +22,28 @@ const AppRouter: FC = () => {
         }
     }, [ accessToken, dispatch, hasErrorOnFetch, user, userLoading ]);
 
+    const hasAccessToken = useMemo(() => {
+        const accessToken = localStorage.getItem('accessToken');
+
+        return Boolean(accessToken);
+    }, [ accessToken ]);
+
     return (
         <BrowserRouter>
             <Routes>
-                {accessToken ? (
+                {hasAccessToken ? (
                     <>
+
+                        <Route
+                            element={<ChatsPage />}
+                            path={routes.chat}
+                        />
+
+                        <Route
+                            element={<ChatsPage />}
+                            path={routes.chats}
+                        />
+
                         <Route
                             element={<Navigate
                             replace={true}
@@ -44,11 +56,6 @@ const AppRouter: FC = () => {
                             to={routes.chats} />}
                             path={routes.home}
                         />
-
-                        <Route
-                            element={<ChatsPage />}
-                            path={routes.chats}
-                        />
                     </>
                 ) : (
                     <>
@@ -59,8 +66,8 @@ const AppRouter: FC = () => {
 
                         <Route
                             element={<Navigate
-                                replace={true}
-                                to={routes.login} />}
+                            replace={true}
+                            to={routes.login} />}
                             path={'*'}
                         />
                     </>

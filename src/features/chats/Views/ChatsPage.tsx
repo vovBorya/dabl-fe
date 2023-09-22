@@ -8,7 +8,7 @@ const useStyles = makeStyles(() => {
     return {
         appContainer: {
             display: 'grid',
-            gridTemplateColumns: '224px 1fr',
+            gridTemplateColumns: '300px 1fr',
             height: '100%'
         }
     };

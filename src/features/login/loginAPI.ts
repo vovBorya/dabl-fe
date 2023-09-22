@@ -1,4 +1,21 @@
-import { type ISignInResponse, apiRequest } from '../api';
+import { type ISignInResponse } from './types';
+
+type THttpMethod = 'GET' | 'POST' | 'DELETE';
+
+export const apiRequest = async (url: string, data?: any, method?: THttpMethod): Promise<unknown> => {
+    const token = localStorage.getItem('token');
+
+    return await fetch(`${process.env.REACT_APP_API_PATH}${url}`, {
+        body: data ? JSON.stringify(data) : undefined,
+        headers: {
+            'Content-Type': 'application/json',
+            ...token
+                ? { Authorization: `Bearer ${token}` }
+                : null
+        },
+        method
+    });
+};
 
 export default {
     signUp: async (login: string, password: string) => {

@@ -10,6 +10,19 @@ body {
 
 body, #root {
   height: 100vh;
+  background-color: #121212;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+textarea, input {
+  border: none;
+}
+
+textarea:focus, input:focus{
+  outline: none;
 }
 
 code {

@@ -35,7 +35,6 @@ export const accountSlice = createSlice<IAccountState, {}, typeof ACCOUNT_STORE_
         });
 
         builder.addCase(fetchUserThunk.rejected, (state) => {
-            console.log('fetchUserThunk.rejected > ', fetchUserThunk.rejected);
             state.userLoading = false;
             state.hasErrorOnFetch = true;
         });

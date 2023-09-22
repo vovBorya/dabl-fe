@@ -1,11 +1,12 @@
 import React, { type ChangeEvent, type FC, useCallback, useState } from 'react';
 import { makeStyles } from 'tss-react/mui';
-import { Box, Button, Container, Typography, TextField } from '@mui/material';
+import { Box, Button, Container, TextField } from '@mui/material';
 import { useDispatch } from 'react-redux';
 
 import loginAPI from '../loginAPI';
 import { onAccountFetchedSuccessfully, setAccessToken } from '../../account';
-import { type ISignInResponse } from '../../api';
+import { type ISignInResponse } from '../types';
+import { Text } from '../../base';
 
 const useStyles = makeStyles( { name: 'LoginScreen' })(() => {
     return {
@@ -57,18 +58,18 @@ export const LoginScreen: FC = () => {
         } catch (e) {
             console.error(e);
         }
-    }, [ login, password ]);
+    }, [ dispatch, login, password ]);
 
     return (
         <Container
             className={classes.root}
             maxWidth={'xs'}>
             <Box className={classes.box}>
-                <Typography
+                <Text
                     className={classes.title}
                     variant='h5'>
                     Dabl
-                </Typography>
+                </Text>
                 <TextField
                     className={classes.input}
                     id="outlined-basic"
