@@ -2,11 +2,13 @@ import React, { type ChangeEvent, type FC, useCallback, useState } from 'react';
 import { makeStyles } from 'tss-react/mui';
 import { Box, Button, Container, TextField } from '@mui/material';
 import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 import loginAPI from '../loginAPI';
 import { onAccountFetchedSuccessfully, setAccessToken } from '../../account';
 import { type ISignInResponse } from '../types';
 import { Text } from '../../base';
+import { routes } from '../../routes';
 
 const useStyles = makeStyles( { name: 'LoginScreen' })(() => {
     return {
@@ -34,7 +36,8 @@ const useStyles = makeStyles( { name: 'LoginScreen' })(() => {
 
 export const LoginScreen: FC = () => {
     const { classes } = useStyles();
-    const dispatch=useDispatch();
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const [ login, setLogin ] = useState<string>('');
     const [ password, setPassword ] = useState<string>('');
@@ -46,6 +49,11 @@ export const LoginScreen: FC = () => {
     const handlePasswordChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
         setPassword(event.target.value);
     },[]);
+
+    const onSignUpClick = useCallback(() => {
+        console.log('routes.signUp > ', routes.signUp);
+        navigate(routes.signUp);
+    }, [ navigate ]);
 
     const onSubmit = useCallback(async () => {
         try {
@@ -89,8 +97,20 @@ export const LoginScreen: FC = () => {
                 <Button
                     fullWidth
                     onClick={onSubmit}
-                    size={'large'}>
+                    size={'large'}
+                    variant='contained'>
                     Sign in
+                </Button>
+
+                <Button
+                    fullWidth
+                    onClick={onSignUpClick}
+                    size={'large'}
+                    sx={{
+                        marginTop: '8px'
+                    }}
+                    variant='outlined'>
+                    Sign up
                 </Button>
             </Box>
         </Container>

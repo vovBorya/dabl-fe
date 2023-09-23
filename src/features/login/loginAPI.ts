@@ -18,11 +18,19 @@ export const apiRequest = async (url: string, data?: any, method?: THttpMethod):
 };
 
 export default {
-    signUp: async (login: string, password: string) => {
-        const data = { login, password };
+    signUp: async (nickName: string, firstName: string, lastName: string, email: string, password: string): Promise<ISignInResponse> => {
 
-        // @ts-ignore
-        return await apiRequest('/sign-up', data, 'POST').then(res => res.json());
+        return await apiRequest(
+            '/sign-up',
+            {
+                nickName,
+                firstName,
+                lastName,
+                email,
+                password
+            },
+            'POST' // @ts-ignore
+        ).then(res => res.json());
     },
     signIn: async (login: string, password: string): Promise<ISignInResponse> => {
         const data = { login, password };

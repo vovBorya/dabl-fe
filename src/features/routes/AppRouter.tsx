@@ -4,7 +4,7 @@ import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 
 import { ChatsPage } from '../chats';
 import { routes } from './routes';
-import { LoginScreen } from '../login';
+import { LoginScreen, SignUpScreen } from '../login';
 import { accountSelector, fetchUserThunk, useInitAccessToken } from '../account';
 import { useSubscribeSSE } from '../sse';
 
@@ -48,13 +48,7 @@ const AppRouter: FC = () => {
                             element={<Navigate
                             replace={true}
                             to={routes.chats} />}
-                            path={routes.login}
-                        />
-                        <Route
-                            element={<Navigate
-                            replace={true}
-                            to={routes.chats} />}
-                            path={routes.home}
+                            path={'*'}
                         />
                     </>
                 ) : (
@@ -65,9 +59,16 @@ const AppRouter: FC = () => {
                         />
 
                         <Route
-                            element={<Navigate
-                            replace={true}
-                            to={routes.login} />}
+                            element={<SignUpScreen />}
+                            path={routes.signUp}
+                        />
+
+                        <Route
+                            element={(
+                                <Navigate
+                                    replace={true}
+                                    to={routes.login} />
+                            )}
                             path={'*'}
                         />
                     </>
