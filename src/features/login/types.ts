@@ -1,5 +1,6 @@
 import { type IUser } from '../account';
 
 export interface ISignInResponse extends IUser {
-    accessToken: string
+    accessToken: string;
+    message?: string;
 }

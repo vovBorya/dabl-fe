@@ -9,7 +9,9 @@ const useStyles = makeStyles((theme: Theme) => {
     return {
         root: {
             padding: '4px',
+            height: '56px',
             display: 'flex',
+            paddingLeft: '8px',
             alignItems: 'center',
             width: '100%',
             borderBottom: `1px solid ${theme.palette.divider}`

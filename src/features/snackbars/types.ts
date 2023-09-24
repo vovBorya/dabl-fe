@@ -7,5 +7,5 @@ export interface ISnackbar {
 }
 
 export interface ISnackbarState {
-    snackbars: ISnackbar[];
+    snackbar: ISnackbar | null;
 }

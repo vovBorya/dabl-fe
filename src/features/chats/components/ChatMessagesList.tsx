@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme: Theme) => {
             flex: 1,
             flexDirection: 'column',
             padding: '16px',
-            gap: '16px',
+            gap: '4px',
             overflow: 'auto',
             '& :first-child': {
                 marginTop: 'auto'

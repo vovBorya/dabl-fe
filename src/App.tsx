@@ -3,6 +3,7 @@ import './App.css';
 import { Provider } from 'react-redux';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
+import { SnackbarProvider } from './features/snackbars';
 import { AppRouter } from './features/routes';
 import { store } from './features/store';
 
@@ -22,7 +23,9 @@ const App: FC = () => {
     return (
         <ThemeProvider theme={theme}>
             <Provider store={store}>
-                <AppRouter />
+                <SnackbarProvider>
+                    <AppRouter />
+                </SnackbarProvider>
             </Provider>
         </ThemeProvider>
     );

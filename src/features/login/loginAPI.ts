@@ -11,13 +11,13 @@ export const apiRequest = async (url: string, data?: any, method?: THttpMethod):
             'Content-Type': 'application/json',
             ...token
                 ? { Authorization: `Bearer ${token}` }
-                : null
+                : {}
         },
         method
     });
 };
 
-export default {
+export const loginAPI = {
     signUp: async (nickName: string, firstName: string, lastName: string, email: string, password: string): Promise<ISignInResponse> => {
 
         return await apiRequest(
@@ -35,7 +35,7 @@ export default {
     signIn: async (login: string, password: string): Promise<ISignInResponse> => {
         const data = { login, password };
 
-        // @ts-ignore
-        return await apiRequest('/sign-in', data, 'POST').then(res => res.json());
+        return await apiRequest('/sign-in', data, 'POST') // @ts-ignore
+            .then(res => res.json());
     }
 };

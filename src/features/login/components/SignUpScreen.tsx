@@ -13,7 +13,7 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { useDispatch } from 'react-redux';
 import { Formik } from 'formik';
 
-import loginAPI from '../loginAPI';
+import { loginAPI } from '../loginAPI';
 import { onAccountFetchedSuccessfully, setAccessToken } from '../../account';
 import { type ISignInResponse } from '../types';
 import { Text } from '../../base';
@@ -162,11 +162,10 @@ export const SignUpScreen: FC = () => {
                                     endAdornment: (
                                         <InputAdornment position="end">
                                             <IconButton
-                                            aria-label="toggle password visibility"
-                                            edge="end"
-                                            onClick={handleClickShowPassword}
-                                            onMouseDown={handleMouseDownPassword}
-                                            >
+                                                aria-label="toggle password visibility"
+                                                edge="end"
+                                                onClick={handleClickShowPassword}
+                                                onMouseDown={handleMouseDownPassword}>
                                                 {showPassword ? <VisibilityOff /> : <Visibility />}
                                             </IconButton>
                                         </InputAdornment>

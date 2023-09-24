@@ -4,11 +4,12 @@ import { Box, Button, Container, TextField } from '@mui/material';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
-import loginAPI from '../loginAPI';
+import { loginAPI } from '../loginAPI';
 import { onAccountFetchedSuccessfully, setAccessToken } from '../../account';
 import { type ISignInResponse } from '../types';
 import { Text } from '../../base';
 import { routes } from '../../routes';
+import { showSnackbar } from '../../snackbars';
 
 const useStyles = makeStyles( { name: 'LoginScreen' })(() => {
     return {
@@ -57,7 +58,19 @@ export const LoginScreen: FC = () => {
 
     const onSubmit = useCallback(async () => {
         try {
-            const { accessToken, ...account }: ISignInResponse = await loginAPI.signIn(login, password);
+            const { accessToken, message, ...account }: ISignInResponse = await loginAPI.signIn(login, password);
+
+            console.log({ accessToken });
+            console.log({ message });
+
+            if (message) {
+                dispatch(showSnackbar({
+                    message,
+                    variant: 'error'
+                }));
+
+                return;
+            }
 
             dispatch(onAccountFetchedSuccessfully(account));
             dispatch(setAccessToken(accessToken));
