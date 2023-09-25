@@ -22,3 +22,7 @@ export interface IFetchApiMethod {
     body?: any;
     method: 'GET' | 'POST' | 'PUT' | 'DELETE'
 }
+
+export type TUserUpdate = Omit<IUser, 'birthDate' | 'createdAt' | 'updatedAt'> & {
+    onSuccess?: () => void;
+};

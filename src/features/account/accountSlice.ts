@@ -1,6 +1,6 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 
-import { fetchUserThunk, type IAccountState, type IUser } from './index';
+import { fetchUserThunk, type IAccountState, type IUser, updateUserThunk } from './index';
 import { ACCOUNT_STORE_NAME } from './constants';
 import { type TRootState } from '../store';
 
@@ -37,6 +37,21 @@ export const accountSlice = createSlice<IAccountState, {}, typeof ACCOUNT_STORE_
         builder.addCase(fetchUserThunk.rejected, (state) => {
             state.userLoading = false;
             state.hasErrorOnFetch = true;
+        });
+
+        builder.addCase(updateUserThunk.pending, (state) => {
+            state.userLoading = true;
+        });
+
+        builder.addCase(updateUserThunk.fulfilled, (state, action: PayloadAction<IUser | undefined>) => {
+            if (action.payload) {
+                state.user = action.payload;
+            }
+            state.userLoading = false;
+        });
+
+        builder.addCase(updateUserThunk.rejected, (state) => {
+            state.userLoading = false;
         });
     }
 });

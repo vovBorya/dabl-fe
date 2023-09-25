@@ -69,6 +69,15 @@ const AppRouter: FC = () => {
                                 </Route>
                             </Route>
                         </Route>
+
+                        <Route
+                            element={(
+                                <Navigate
+                                    replace={true}
+                                    to={routes.chats} />
+                            )}
+                            path={'*'}
+                        />
                     </>
                 ) : (
                     <>

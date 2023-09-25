@@ -75,11 +75,13 @@ export const LoginScreen: FC = () => {
             dispatch(onAccountFetchedSuccessfully(account));
             dispatch(setAccessToken(accessToken));
 
+            navigate(routes.chats);
+
             localStorage.setItem('accessToken', accessToken);
         } catch (e) {
             console.error(e);
         }
-    }, [ dispatch, login, password ]);
+    }, [ dispatch, login, navigate, password ]);
 
     return (
         <Container

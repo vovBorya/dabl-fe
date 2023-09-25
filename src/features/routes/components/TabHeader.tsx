@@ -3,7 +3,8 @@ import { makeStyles } from '@mui/styles';
 import { IconButton, type Theme } from '@mui/material';
 import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
 
-import { Modal, Text } from '../../base';
+import { AccountModal } from '../../account';
+import { Text } from '../../base';
 
 const useStyles = makeStyles((theme: Theme) => {
     return {
@@ -45,15 +46,9 @@ const TabHeader: FC = () => {
 
             </div>
 
-            <Modal
+            <AccountModal
                 onRequestClose={closeAccountModal}
-                visible={isAccountOpened}>
-                <div>
-                    <Text sx={{ padding: '32px' }}>
-                        Account
-                    </Text>
-                </div>
-            </Modal>
+                visible={isAccountOpened} />
         </div>
     );
 };
