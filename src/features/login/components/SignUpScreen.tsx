@@ -14,7 +14,7 @@ import { useDispatch } from 'react-redux';
 import { Formik } from 'formik';
 
 import { loginAPI } from '../loginAPI';
-import { onAccountFetchedSuccessfully, setAccessToken } from '../../account';
+import { onAccountFetchedSuccessfully, setIsAuthenticated } from '../../account';
 import { type ISignInResponse } from '../types';
 import { Text } from '../../base';
 
@@ -67,7 +67,7 @@ export const SignUpScreen: FC = () => {
             );
 
             dispatch(onAccountFetchedSuccessfully(account));
-            dispatch(setAccessToken(accessToken));
+            dispatch(setIsAuthenticated(true));
 
             localStorage.setItem('accessToken', accessToken);
 

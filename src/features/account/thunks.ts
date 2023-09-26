@@ -1,7 +1,8 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
-import { type IUser, ACCOUNT_STORE_NAME, type TUserUpdate } from '../account';
+import { type IUser, type TUserUpdate } from '../account';
 import { accountAPI } from './accountAPI';
+import { ACCOUNT_STORE_NAME } from './constants';
 import { showSnackbar } from '../snackbars';
 
 export const fetchUserThunk = createAsyncThunk<IUser | undefined>(
@@ -24,8 +25,6 @@ export const updateUserThunk = createAsyncThunk<IUser | undefined, TUserUpdate>(
     async ({ onSuccess, ...user }, thunkAPI) => {
         try {
             const updatedUser: IUser = await accountAPI.updateUser(user);
-
-            console.log({ updatedUser });
 
             onSuccess?.();
 

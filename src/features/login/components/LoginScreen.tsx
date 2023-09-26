@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 import { loginAPI } from '../loginAPI';
-import { onAccountFetchedSuccessfully, setAccessToken } from '../../account';
+import { onAccountFetchedSuccessfully, setIsAuthenticated } from '../../account';
 import { type ISignInResponse } from '../types';
 import { Text } from '../../base';
 import { routes } from '../../routes';
@@ -73,7 +73,7 @@ export const LoginScreen: FC = () => {
             }
 
             dispatch(onAccountFetchedSuccessfully(account));
-            dispatch(setAccessToken(accessToken));
+            dispatch(setIsAuthenticated(true));
 
             navigate(routes.chats);
 

@@ -1,4 +1,5 @@
 import { type IUser, type TUserUpdate } from './types';
+import { logout } from './functions';
 
 const apiRoutes = {
     user: '/user'
@@ -11,6 +12,10 @@ const fetchUser = async (): Promise<IUser> => {
         const response = await fetch(`${process.env.REACT_APP_API_PATH}${apiRoutes.user}`, {
             headers: { Authorization: `Bearer ${accessToken}` },
         });
+
+        if (response.status === 401) {
+            logout();
+        }
 
         return await response.json();
     } catch (err) {

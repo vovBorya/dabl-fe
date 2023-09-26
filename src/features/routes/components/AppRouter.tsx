@@ -1,12 +1,12 @@
-import React, { type FC, useEffect, useMemo } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { type FC } from 'react';
+import { useSelector } from 'react-redux';
 import { BrowserRouter, Navigate, Route, Routes, Outlet } from 'react-router-dom';
 import { makeStyles } from '@mui/styles';
 
 import { ChatsList, Chat } from '../../chats';
 import { routes } from '../routes';
 import { LoginScreen, SignUpScreen } from '../../login';
-import { accountSelector, fetchUserThunk, useInitAccessToken } from '../../account';
+import { accountSelector, useFetchUserOnInit, useInitAccessToken } from '../../account';
 import { useSubscribeSSE } from '../../sse';
 import TabsWrapper from './TabsWrapper';
 
@@ -22,29 +22,18 @@ const useStyles = makeStyles(theme => {
 
 const AppRouter: FC = () => {
     const classes = useStyles();
-    const dispatch = useDispatch();
-    const { accessToken, user, userLoading, hasErrorOnFetch } = useSelector(accountSelector);
+    const { isAuthenticated } = useSelector(accountSelector);
 
     useInitAccessToken();
 
     useSubscribeSSE();
 
-    useEffect(() => {
-        if (accessToken && !user && !userLoading && !hasErrorOnFetch) { // @ts-ignore
-            dispatch(fetchUserThunk());
-        }
-    }, [ accessToken, dispatch, hasErrorOnFetch, user, userLoading ]);
-
-    const hasAccessToken = useMemo(() => {
-        const accessToken = localStorage.getItem('accessToken');
-
-        return Boolean(accessToken);
-    }, [ accessToken ]);
+    useFetchUserOnInit();
 
     return (
         <BrowserRouter>
             <Routes>
-                {hasAccessToken ? (
+                {isAuthenticated ? (
                     <>
 
                         <Route

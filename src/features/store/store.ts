@@ -3,7 +3,8 @@ import { configureStore } from '@reduxjs/toolkit';
 import { accountReducer } from '../account';
 import { ACCOUNT_STORE_NAME } from '../account/constants';
 import { snackbarsReducer, SNACKBARS_STORE_NAME } from '../snackbars';
-import { CHATS_STORE_NAME, chatsReducer } from '../chats';
+import { chatsReducer } from '../chats/chatsSlice';
+import { CHATS_STORE_NAME } from '../chats/constants';
 
 export const store = configureStore({
     reducer: {

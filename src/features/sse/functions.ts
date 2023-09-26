@@ -6,7 +6,7 @@ import { onNewMessageReceived } from '../chats';
 import { ISSeTypes } from './types';
 
 export const useSubscribeSSE = (): void => {
-    const { accessToken } = useSelector(accountSelector);
+    const { isAuthenticated } = useSelector(accountSelector);
     const dispatch = useDispatch();
 
     // @ts-ignore
@@ -17,10 +17,12 @@ export const useSubscribeSSE = (): void => {
                 break;
             }
         }
-    }, []);
+    }, [ dispatch ]);
 
     useEffect(() => {
-        if (!process.env.REACT_APP_SSE_PATH || !accessToken) return;
+        if (!process.env.REACT_APP_SSE_PATH || !isAuthenticated) return;
+
+        const accessToken = localStorage.getItem('accessToken');
 
         const eventSource = new EventSource(`${process.env.REACT_APP_SSE_PATH}/${accessToken}`);
 
@@ -44,5 +46,5 @@ export const useSubscribeSSE = (): void => {
             console.error('ON ERROR > ', event);
         });
 
-    }, [ accessToken, handleSSE ]);
+    }, [ isAuthenticated, handleSSE ]);
 };

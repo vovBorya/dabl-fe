@@ -4,3 +4,4 @@ export * from './constants';
 export * from './thunks';
 export * from './functions';
 export * from './components';
+export * from './accountAPI';

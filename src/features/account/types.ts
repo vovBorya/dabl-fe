@@ -12,15 +12,8 @@ export interface IUser {
 export interface IAccountState {
     user: IUser | null;
     userLoading: boolean;
-    accessToken: string | null;
+    isAuthenticated: boolean;
     hasErrorOnFetch: boolean;
-}
-
-export interface IFetchApiMethod {
-    url: string;
-    headers?: any;
-    body?: any;
-    method: 'GET' | 'POST' | 'PUT' | 'DELETE'
 }
 
 export type TUserUpdate = Omit<IUser, 'birthDate' | 'createdAt' | 'updatedAt'> & {

@@ -1,13 +1,14 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 
-import { fetchUserThunk, type IAccountState, type IUser, updateUserThunk } from './index';
+import { type IAccountState, type IUser } from './index';
 import { ACCOUNT_STORE_NAME } from './constants';
+import { fetchUserThunk, updateUserThunk } from './thunks';
 import { type TRootState } from '../store';
 
 const DEFAULT_STATE: IAccountState = {
     user: null,
     userLoading: false,
-    accessToken: null,
+    isAuthenticated: false,
     hasErrorOnFetch: false
 };
 
@@ -18,8 +19,8 @@ export const accountSlice = createSlice<IAccountState, {}, typeof ACCOUNT_STORE_
         onAccountFetchedSuccessfully: (state: IAccountState, action: PayloadAction<IUser>) => {
             state.user = action.payload;
         },
-        setAccessToken: (state: IAccountState, action: PayloadAction<string>) => {
-            state.accessToken = action.payload;
+        setIsAuthenticated: (state: IAccountState, action: PayloadAction<boolean>) => {
+            state.isAuthenticated = action.payload;
         }
     },
     extraReducers: (builder) => {
@@ -57,7 +58,7 @@ export const accountSlice = createSlice<IAccountState, {}, typeof ACCOUNT_STORE_
 });
 
 export const { // @ts-ignore
-    setAccessToken, // @ts-ignore
+    setIsAuthenticated, // @ts-ignore
     onAccountFetchedSuccessfully
 } = accountSlice.actions;
 
