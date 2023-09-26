@@ -1,16 +1,19 @@
 import { configureStore } from '@reduxjs/toolkit';
 
-import { accountReducer } from '../account';
-import { ACCOUNT_STORE_NAME } from '../account/constants';
+import { accountReducer, ACCOUNT_STORE_NAME } from '../account';
 import { snackbarsReducer, SNACKBARS_STORE_NAME } from '../snackbars';
-import { chatsReducer } from '../chats/chatsSlice';
-import { CHATS_STORE_NAME } from '../chats/constants';
+import { chatsReducer, CHATS_STORE_NAME } from '../chats';
+import { usersAPI } from '../users';
 
 export const store = configureStore({
     reducer: {
         [ACCOUNT_STORE_NAME]: accountReducer,
         [SNACKBARS_STORE_NAME]: snackbarsReducer,
-        [CHATS_STORE_NAME]: chatsReducer
+        [CHATS_STORE_NAME]: chatsReducer,
+        [usersAPI.reducerPath]: usersAPI.reducer
+    },
+    middleware: (getDefaultMiddleware) => {
+        return getDefaultMiddleware().concat(usersAPI.middleware);
     }
 });
 

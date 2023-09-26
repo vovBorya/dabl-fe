@@ -52,16 +52,12 @@ export const LoginScreen: FC = () => {
     },[]);
 
     const onSignUpClick = useCallback(() => {
-        console.log('routes.signUp > ', routes.signUp);
         navigate(routes.signUp);
     }, [ navigate ]);
 
     const onSubmit = useCallback(async () => {
         try {
             const { accessToken, message, ...account }: ISignInResponse = await loginAPI.signIn(login, password);
-
-            console.log({ accessToken });
-            console.log({ message });
 
             if (message) {
                 dispatch(showSnackbar({

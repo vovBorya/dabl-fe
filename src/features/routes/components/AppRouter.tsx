@@ -3,9 +3,10 @@ import { useSelector } from 'react-redux';
 import { BrowserRouter, Navigate, Route, Routes, Outlet } from 'react-router-dom';
 import { makeStyles } from '@mui/styles';
 
-import { ChatsList, Chat } from '../../chats';
+import { ChatsTab, Chat } from '../../chats';
 import { routes } from '../routes';
 import { LoginScreen, SignUpScreen } from '../../login';
+import { UsersTab } from '../../users';
 import { accountSelector, useFetchUserOnInit, useInitAccessToken } from '../../account';
 import { useSubscribeSSE } from '../../sse';
 import TabsWrapper from './TabsWrapper';
@@ -35,7 +36,6 @@ const AppRouter: FC = () => {
             <Routes>
                 {isAuthenticated ? (
                     <>
-
                         <Route
                             element={(
                                 <div className={classes.appContainer}>
@@ -47,14 +47,22 @@ const AppRouter: FC = () => {
                             <Route element={ <TabsWrapper /> }>
                                 <Route path={routes.chats}>
                                     <Route
-                                        element={<ChatsList />}
-                                        path={routes.chat}
-                                    />
+                                        element={<ChatsTab />}
+                                        path={routes.chat} />
 
                                     <Route
-                                        element={<ChatsList />}
-                                        path={''}
-                                    />
+                                        element={<ChatsTab />}
+                                        path={''} />
+                                </Route>
+
+                                <Route path={routes.users}>
+                                    <Route
+                                        element={<UsersTab />}
+                                        path={routes.user} />
+
+                                    <Route
+                                        element={<UsersTab />}
+                                        path={''} />
                                 </Route>
                             </Route>
                         </Route>
@@ -65,20 +73,17 @@ const AppRouter: FC = () => {
                                     replace={true}
                                     to={routes.chats} />
                             )}
-                            path={'*'}
-                        />
+                            path={'*'} />
                     </>
                 ) : (
                     <>
                         <Route
                             element={<LoginScreen />}
-                            path={routes.login}
-                        />
+                            path={routes.login} />
 
                         <Route
                             element={<SignUpScreen />}
-                            path={routes.signUp}
-                        />
+                            path={routes.signUp} />
 
                         <Route
                             element={(
@@ -86,8 +91,7 @@ const AppRouter: FC = () => {
                                     replace={true}
                                     to={routes.login} />
                             )}
-                            path={'*'}
-                        />
+                            path={'*'} />
                     </>
                 )}
             </Routes>

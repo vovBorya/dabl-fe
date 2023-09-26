@@ -1,11 +1,9 @@
-import React, { type FC, useCallback } from 'react';
+import React, { type FC } from 'react';
 import { makeStyles } from '@mui/styles';
 import { type Theme } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
 
-import { type IChat } from '../types';
+import { type IUser } from '../../account';
 import { AvatarWithLetters, Text } from '../../base';
-import { routes } from '../../routes';
 
 const useStyles = makeStyles((theme: Theme) => {
     return {
@@ -23,29 +21,22 @@ const useStyles = makeStyles((theme: Theme) => {
 });
 
 type TProps = {
-    chat: IChat
+    user: IUser
 }
 
-const ChatRow: FC<TProps> = ({ chat }) => {
+const UserRow: FC<TProps> = ({ user }) => {
     const classes = useStyles();
-    const navigate = useNavigate();
-
-    const onChatClick = useCallback(() => {
-        navigate(routes.chat.replace(':chatId', chat.id));
-    }, [ chat.id, navigate ]);
 
     return (
-        <div
-            className={classes.root}
-            onClick={onChatClick}>
-            <AvatarWithLetters name={chat.name} />
+        <div className={classes.root}>
+            <AvatarWithLetters name={user.nickName} />
             <Text
                 sx={{ marginLeft: '16px' }}
                 variant='body1'>
-                {chat.name}
+                {user.nickName}
             </Text>
         </div>
     );
 };
 
-export default ChatRow;
+export default UserRow;
