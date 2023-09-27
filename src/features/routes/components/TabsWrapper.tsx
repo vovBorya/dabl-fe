@@ -17,9 +17,6 @@ const useStyles = makeStyles((theme: Theme) => {
             display: 'grid',
             gridTemplateRows: '56px 1fr 56px'
         },
-        tabContent: {
-            overflowY: 'auto'
-        },
         footer: {
             width: '100%',
             borderTop: `1px solid ${theme.palette.divider}`,
@@ -35,9 +32,7 @@ const TabsWrapper: FC = () => {
         <div className={classes.root}>
             <TabHeader />
 
-            <div className={classes.tabContent}>
-                <Outlet />
-            </div>
+            <Outlet />
 
             <nav className={classes.footer}>
                 <Tab

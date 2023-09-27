@@ -1,9 +1,11 @@
-import React, { type FC } from 'react';
+import React, { type FC, useCallback } from 'react';
 import { makeStyles } from '@mui/styles';
 import { type Theme } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 
 import { type IUser } from '../../account';
 import { AvatarWithLetters, Text } from '../../base';
+import { routes } from '../../routes';
 
 const useStyles = makeStyles((theme: Theme) => {
     return {
@@ -26,9 +28,16 @@ type TProps = {
 
 const UserRow: FC<TProps> = ({ user }) => {
     const classes = useStyles();
+    const navigate = useNavigate();
+
+    const onUserClick = useCallback(() => {
+        navigate(routes.user.replace(':userId', user.id));
+    }, [ navigate, user.id ]);
 
     return (
-        <div className={classes.root}>
+        <div
+            className={classes.root}
+            onClick={onUserClick}>
             <AvatarWithLetters name={user.nickName} />
             <Text
                 sx={{ marginLeft: '16px' }}

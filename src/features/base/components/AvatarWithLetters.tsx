@@ -3,12 +3,13 @@ import { Avatar, type AvatarProps } from '@mui/material';
 
 type TProps = {
     name: string;
+    sx?: AvatarProps['sx'];
 }
 
-const AvatarWithLetters: FC<TProps> = ({ name }) => {
+const AvatarWithLetters: FC<TProps> = ({ sx, name }) => {
 
     return (
-        <Avatar {...stringAvatar(name)} />
+        <Avatar {...stringAvatar(name, sx)} />
     );
 };
 
@@ -30,11 +31,12 @@ function stringToColor(string: string): string {
     return color;
 }
 
-function stringAvatar(name: string): Pick<AvatarProps, 'sx' | 'children'> {
+function stringAvatar(name: string, defaultSx: AvatarProps['sx'] = {}): Pick<AvatarProps, 'sx' | 'children'> {
     return {
         sx: {
             bgcolor: stringToColor(name),
-            color: theme => theme.palette.text.primary
+            color: theme => theme.palette.text.primary,
+            ...defaultSx
         },
         children: `${name.split(' ')[0][0]}${name.split(' ')[1]?.[0] ?? ''}`,
     };

@@ -15,8 +15,14 @@ export const usersAPI = createApi({
                 url: apiRoutes.users,
                 headers: { Authorization: `Bearer ${localStorage.getItem('accessToken')}` },
             })
+        }),
+        getUserById: builder.query<IUser, string>({
+            query: (userId) => ({
+                url: `${apiRoutes.users}/${userId}`,
+                headers: { Authorization: `Bearer ${localStorage.getItem('accessToken')}` },
+            })
         })
     })
 });
 
-export const { useGetUsersQuery } = usersAPI;
+export const { useGetUsersQuery, useLazyGetUserByIdQuery } = usersAPI;
