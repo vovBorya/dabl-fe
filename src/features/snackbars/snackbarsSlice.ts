@@ -13,8 +13,10 @@ export const snackbarsSlice = createSlice({
     name: SNACKBARS_STORE_NAME,
     reducers: {
         showSnackbar: (state: ISnackbarState, action: PayloadAction<ISnackbar>) => {
-
             state.snackbar = action.payload;
+        },
+        reset: () => {
+            return DEFAULT_STATE;
         }
     }
 });
@@ -22,7 +24,8 @@ export const snackbarsSlice = createSlice({
 export const snackbarsSelector = (state: TRootState): ISnackbarState => state[SNACKBARS_STORE_NAME];
 
 export const {
-    showSnackbar
+    showSnackbar,
+    reset
 } = snackbarsSlice.actions;
 
 export const snackbarsReducer = snackbarsSlice.reducer;

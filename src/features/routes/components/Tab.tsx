@@ -33,7 +33,7 @@ const Tab: FC<TProps> = ({ title, icon, route }) => {
 
     const onClick = useCallback(() => {
         navigate(route);
-    }, [ route ]);
+    }, [ navigate, route ]);
 
     return (
         <div

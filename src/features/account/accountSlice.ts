@@ -21,6 +21,9 @@ export const accountSlice = createSlice<IAccountState, {}, typeof ACCOUNT_STORE_
         },
         setIsAuthenticated: (state: IAccountState, action: PayloadAction<boolean>) => {
             state.isAuthenticated = action.payload;
+        },
+        reset: () => {
+            return DEFAULT_STATE;
         }
     },
     extraReducers: (builder) => {
@@ -59,7 +62,8 @@ export const accountSlice = createSlice<IAccountState, {}, typeof ACCOUNT_STORE_
 
 export const { // @ts-ignore
     setIsAuthenticated, // @ts-ignore
-    onAccountFetchedSuccessfully
+    onAccountFetchedSuccessfully, // @ts-ignore
+    reset
 } = accountSlice.actions;
 
 export const accountSelector = (state: TRootState): IAccountState => {

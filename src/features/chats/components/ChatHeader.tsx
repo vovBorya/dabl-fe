@@ -1,5 +1,5 @@
 import React, { type FC } from 'react';
-import { Box, type Theme } from '@mui/material';
+import { type Theme } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 
 import { AvatarWithLetters, Text } from '../../base';

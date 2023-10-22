@@ -1,8 +1,9 @@
 import { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-// import { store } from '../store';
-import { accountSelector, setIsAuthenticated } from './accountSlice';
+import { accountSelector, setIsAuthenticated, reset as resetAccountSlice } from './accountSlice';
+import { reset as resetChatsSlice } from '../chats';
+import { reset as resetSnackbarsSlice } from '../snackbars';
 import { fetchUserThunk } from './thunks';
 
 export const useInitAccessToken = (): void => {
@@ -38,6 +39,9 @@ export const useLogout = (): () => void => {
 
     return useCallback(() => {
         dispatch(setIsAuthenticated(false));
+        dispatch(resetAccountSlice());
+        dispatch(resetChatsSlice());
+        dispatch(resetSnackbarsSlice());
         logout();
     }, [ dispatch ]);
 };

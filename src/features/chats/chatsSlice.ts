@@ -22,6 +22,9 @@ export const chatsSlice = createSlice<IChatsState, {}, typeof CHATS_STORE_NAME>(
             if (chat?.id === action.payload.chatId) {
                 chat.messages.push(action.payload);
             }
+        },
+        reset: () => {
+            return DEFAULT_STATE;
         }
     },
     extraReducers: (builder) => {
@@ -63,7 +66,8 @@ export const chatsSlice = createSlice<IChatsState, {}, typeof CHATS_STORE_NAME>(
 export const chatsSelector = (state: TRootState): IChatsState => state[CHATS_STORE_NAME];
 
 export const { // @ts-ignore
-    onNewMessageReceived
+    onNewMessageReceived, // @ts-ignore
+    reset
 } = chatsSlice.actions;
 
 export const chatsReducer = chatsSlice.reducer;

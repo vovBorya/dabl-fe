@@ -2,6 +2,7 @@ import React, { type FC, useCallback, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { makeStyles } from '@mui/styles';
 import { Box, type Theme } from '@mui/material';
+import { Helmet } from 'react-helmet';
 
 import { useFetchAndSaveChat } from '../functions';
 import { ChatHeader, ChatMessagesList, MessageInput } from '../components';
@@ -67,6 +68,10 @@ const Chat: FC = () => {
 
     return (
         <div className={classes.root}>
+            <Helmet>
+                <title>{chat.participants[0].nickName} | Dabl</title>
+            </Helmet>
+
             <ChatHeader participants={chat.participants} />
 
             <ChatMessagesList
